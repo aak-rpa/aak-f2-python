@@ -21,10 +21,13 @@ Common commands:
 uv run <command>           # run a command inside the project environment
 uv add <package>           # add a dependency
 uv add --dev <package>     # add a development-only dependency
+uv sync -P <package>       # update a dependency to the latest allowed version
 uv remove <package>        # remove a dependency
 ```
 
 Dependencies are declared in `pyproject.toml`, and the exact versions are pinned in `uv.lock`. Commit both files whenever you change dependencies.
+
+`uv sync -P` only updates `uv.lock` within the version range allowed by `pyproject.toml`. To require a newer minimum version, use `uv add "<package>>=X.Y"` instead.
 
 ### Ruff
 
@@ -97,7 +100,20 @@ The project uses [semantic versioning](https://semver.org/) in the form `MAJOR.M
 
 Breaking changes in department modules only bump the minor version, because those modules are experimental. Anyone relying on a department module should pin the minor version, e.g. `aak-f2~=1.2.0`.
 
+## Changelog
+
+Every pull request that changes the package should add a line to the `[Unreleased]` section of [CHANGELOG.md](CHANGELOG.md), under one of these headings:
+
+- **Added** for new functionality.
+- **Changed** for changes to existing functionality, including breaking changes.
+- **Fixed** for bug fixes.
+- **Development** for changes that only affect development of this project, such as CI, tooling or dev dependencies.
+
+When releasing, rename `[Unreleased]` to the new version and date, e.g. `## [1.2.0] - 2026-10-09`, and add a new empty `[Unreleased]` section above it.
+
 ## Releasing
+
+Not every pull request is a release. Feature pull requests should not change the version. Releases are made on demand, when there is something worth shipping, by a separate pull request that only bumps the version.
 
 Releases are published to [PyPI](https://pypi.org/project/aak-f2/) automatically by the [publish workflow](.github/workflows/publish.yml) when a GitHub release is published.
 

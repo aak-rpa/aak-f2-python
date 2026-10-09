@@ -102,14 +102,12 @@ Breaking changes in department modules only bump the minor version, because thos
 
 ## Changelog
 
-Every pull request that changes the package should add a line to the `[Unreleased]` section of [CHANGELOG.md](CHANGELOG.md), under one of these headings:
+Every pull request that changes the package should add a line to the `Unreleased` section of [CHANGELOG.md](CHANGELOG.md), under one of these headings:
 
 - **Added** for new functionality.
 - **Changed** for changes to existing functionality, including breaking changes.
 - **Fixed** for bug fixes.
 - **Development** for changes that only affect development of this project, such as CI, tooling or dev dependencies.
-
-When releasing, rename `[Unreleased]` to the new version and date, e.g. `## [1.2.0] - 2026-10-09`, and add a new empty `[Unreleased]` section above it.
 
 ## Releasing
 
@@ -118,7 +116,8 @@ Not every pull request is a release. Feature pull requests should not change the
 Releases are published to [PyPI](https://pypi.org/project/aak-f2/) automatically by the [publish workflow](.github/workflows/publish.yml) when a GitHub release is published.
 
 1. Bump `version` in `pyproject.toml`. PyPI does not allow re-uploading an existing version.
-2. Commit and push the change.
-3. Create a GitHub release.
+2. In [CHANGELOG.md](CHANGELOG.md), rename `Unreleased` to the new version and date, e.g. `## 1.2.0 - 2026-10-09`, and add a new empty `Unreleased` section above it.
+3. Open a pull request with the change and merge it.
+4. Create a GitHub release.
 
 The workflow runs in the `pypi` environment, which requires approval from @GHBM-ITK before anything is uploaded.

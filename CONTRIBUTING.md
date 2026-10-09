@@ -38,3 +38,37 @@ uv run ruff format .       # format the code
 ```
 
 If you use VS Code, the [Ruff extension](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff) shows problems as you type and picks up the project configuration automatically.
+
+## Project structure
+
+The package is split into a shared module and one module per department:
+
+| Module | Purpose |
+| --- | --- |
+| `aak_f2.shared` | Functionality that is useful across departments. Everyone can contribute, but changes should be stable and well considered, since all departments depend on it. |
+| `aak_f2.mkb`, `aak_f2.mtm`, `aak_f2.ba`, `aak_f2.mbu` | Department-specific functionality. These are more loose and experimental, and may change without notice. |
+
+Department modules may import from `shared`, but `shared` must never import from a department module. When something in a department module turns out to be useful for others, move it to `shared`.
+
+## Versioning
+
+The project uses [semantic versioning](https://semver.org/) in the form `MAJOR.MINOR.PATCH`:
+
+| Change | Version bump |
+| --- | --- |
+| Breaking change in `shared` | Major |
+| Breaking change in a department module | Minor |
+| New functionality | Minor |
+| Bug fix | Patch |
+
+Breaking changes in department modules only bump the minor version, because those modules are experimental. Anyone relying on a department module should pin the minor version, e.g. `aak-f2~=1.2.0`.
+
+## Releasing
+
+Releases are published to [PyPI](https://pypi.org/project/aak-f2/) automatically by the [publish workflow](.github/workflows/publish.yml) when a GitHub release is published.
+
+1. Bump `version` in `pyproject.toml`. PyPI does not allow re-uploading an existing version.
+2. Commit and push the change.
+3. Create a GitHub release.
+
+The workflow runs in the `pypi` environment, which requires approval from @GHBM-ITK before anything is uploaded.

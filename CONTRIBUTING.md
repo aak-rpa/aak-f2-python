@@ -50,6 +50,40 @@ The package is split into a shared module and one module per department:
 
 Department modules may import from `shared`, but `shared` must never import from a department module. When something in a department module turns out to be useful for others, move it to `shared`.
 
+## Testing
+
+Tests are written with [unittest](https://docs.python.org/3/library/unittest.html) and live in `tests/`, which mirrors the package structure:
+
+```text
+tests/
+├── shared/
+├── mkb/
+├── mtm/
+├── ba/
+└── mbu/
+```
+
+Name test files `test_<something>.py` so they are discovered automatically.
+
+Tests are not run by GitHub Actions, so run them locally before opening a pull request:
+
+```sh
+uv run python -m unittest
+```
+
+## Workflow
+
+The project uses [GitHub flow](https://docs.github.com/en/get-started/using-github/github-flow). `main` should always be in a releasable state.
+
+1. Create a branch from `main` with a short, descriptive name, e.g. `mkb-case-search`.
+2. Commit your changes to the branch and push it to GitHub.
+3. Open a pull request against `main`. Describe what the change does and why.
+4. Make sure the Ruff check passes and that you have run the tests locally.
+5. Get the pull request reviewed and approved.
+6. Merge the pull request and delete the branch.
+
+Never commit directly to `main`.
+
 ## Versioning
 
 The project uses [semantic versioning](https://semver.org/) in the form `MAJOR.MINOR.PATCH`:
